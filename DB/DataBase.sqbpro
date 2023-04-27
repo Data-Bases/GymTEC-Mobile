@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/Documentos/TEC/2023/I Semestre/Bases de Datos/GymTEC/GymTEC-Mobile/DB/DataBase.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="3613"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,5:mainClase"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="GymTEC-creation.sql">CREATE TABLE ServiciosSucursal
+(
+	Id INTEGER NOT NULL,
+	IdServicioClase INTEGER NOT NULL,
+	NombreSucursal VARCHAR(100) NOT NULL,
+
+	PRIMARY KEY (Id),
+	
+	FOREIGN KEY (IdServicioClase) REFERENCES ServiciosClases(Id),
+	FOREIGN KEY (NombreSucursal) REFERENCES Sucursal(Nombre)
+);
+
+CREATE TABLE Clase
+(
+	Id INTEGER NOT NULL,
+	NombreClase VARCHAR(100) NOT NULL,
+	HoraInicio TIME(0) NOT NULL,
+	HoraFinalizacion TIME(0) NOT NULL,
+	Capacidad INTEGER NOT NULL,
+	EsGrupal BIT NOT NULL,
+	NombreEmpleado VARCHAR(300) NOT NULL,
+
+	PRIMARY KEY (Id)
+);
+
+CREATE TABLE ClaseFecha
+(
+	Id INTEGER NOT NULL,
+	IdClase INTEGER NOT NULL,
+	Fecha DATE NOT NULL,
+	
+	PRIMARY KEY (Id),
+	
+	FOREIGN KEY (IdClase) REFERENCES Clase(Id)
+);
+
+CREATE TABLE ServiciosClases
+(
+	Id INTEGER NOT NULL,
+	Nombre VARCHAR(100) NOT NULL,
+	Descripcion VARCHAR(100) NOT NULL UNIQUE,
+
+	PRIMARY KEY (Id)
+);
+
+CREATE TABLE ClienteClase
+(
+	Id INTEGER NOT NULL,
+	IdClaseFecha INTEGER NOT NULL,
+	CedulaCliente INTEGER NOT NULL,
+
+	PRIMARY KEY (Id),
+	
+	FOREIGN KEY (IdClaseFecha) REFERENCES ClaseFecha(Id),
+	FOREIGN KEY (CedulaCliente) REFERENCES Cliente(Cedula)
+);
+
+CREATE TABLE Cliente
+(
+	Cedula INTEGER NOT NULL CHECK(length(Cedula) &gt;= 9),
+	Nombre VARCHAR(100) NOT NULL,
+	Apellido1 VARCHAR(100) NOT NULL,
+	Apellido2 VARCHAR(100),
+	Provincia VARCHAR(100) NOT NULL,
+	Canton VARCHAR(100) NOT NULL,
+	Distrito VARCHAR(100) NOT NULL,
+	Email VARCHAR(100) NOT NULL,
+	Contrasena VARCHAR(100) NOT NULL,
+	FechaNacimiento DATE NOT NULL,
+	Peso FLOAT(2) DEFAULT 0,
+	IMC FLOAT(2) DEFAULT 0,
+
+	PRIMARY KEY (Cedula)
+);
+
+CREATE TABLE Sucursal
+(
+	Nombre VARCHAR(100) NOT NULL,
+
+	PRIMARY KEY (Nombre)
+);</sql><sql name="GymTEC-population.sql">-- Insert Branches
+
+INSERT INTO Sucursal(Nombre, Provincia, Canton, Distrito, Senas, CapacidadMaxima, FechaApertura, SpaAbierto, TiendaAbierta, IdEmpleadoAdmin)
+            VALUES  ('GymASETEC', 'Cartago', 'Central', 'Oriental', '50m oeste y 200m norte de la entrada del ITCR', 100, '01-01-2000', 0,0, 305320066)
+
+-- Insert Empleados
+
+-- Insert Servicios 
+INSERT INTO ServiciosClases(Nombre, Descripcion)
+            VALUES  ('Indoor Cycling', 'Clase de bicicleta estacionaria'),
+                    ('Pilates', 'Clase de pilates relajante'),
+                    ('Yoga', 'Clase de yoga para la flexibilidad'),
+                    ('Zumba', 'Clase de Zumba con musica latina'),
+                    ('Natacion', 'Clase de natacion ideal para principiantes')
+
+
+SELECT * FROM Cliente;
+SELECT * FROM Sucursal;</sql><current_tab id="1"/></tab_sql></sqlb_project>
