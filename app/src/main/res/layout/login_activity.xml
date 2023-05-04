@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/palette_color2">
+
+    <ImageView
+        android:id="@+id/login_background"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/login_blur_background" />
+
+    <Button
+        android:id="@+id/login_button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        android:background="@color/palette_color2"
+        android:drawableTint="@color/palette_color"
+        android:fontFamily="@font/brandon_grotesque_regular_italic"
+        android:text="Log In"
+        android:textColor="#FFFFFF"
+        android:textSize="18dp"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/signup_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:rippleColor="@color/palette_color2" />
+
+    <Button
+        android:id="@+id/signup_button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="0dp"
+        android:layout_height="65dp"
+        android:background="@color/palette_color2"
+        android:drawableTint="@color/palette_color"
+        android:fontFamily="@font/brandon_grotesque_regular_italic"
+        android:text="Sign Up"
+        android:textColor="#FFFFFF"
+        android:textSize="18dp"
+        app:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/space" />
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/login_background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/login_title1"
+        android:layout_width="197dp"
+        android:layout_height="104dp"
+        android:fontFamily="@font/brandon_grotesque_medium_italic"
+        android:text=" Built"
+        android:textAlignment="viewStart"
+        android:textColor="#FFFFFF"
+        android:textSize="90dp"
+        app:layout_constraintBottom_toTopOf="@+id/login_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.35000002" />
+
+    <TextView
+        android:id="@+id/login_title2"
+        android:layout_width="285dp"
+        android:layout_height="89dp"
+        android:layout_marginTop="70dp"
+        android:fontFamily="@font/brandon_grotesque_bold_italic"
+        android:text=" just for"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="65dp"
+        app:layout_constraintStart_toStartOf="@+id/login_title1"
+        app:layout_constraintTop_toTopOf="@+id/login_title1" />
+
+    <TextView
+        android:id="@+id/login_title3"
+        android:layout_width="301dp"
+        android:layout_height="92dp"
+        android:layout_marginTop="130dp"
+        android:fontFamily="@font/brandon_grotesque_light_italic"
+        android:text="you."
+        android:textAlignment="viewStart"
+        android:textColor="@color/palette_color1"
+        android:textSize="65dp"
+        app:layout_constraintStart_toStartOf="@+id/login_title2"
+        app:layout_constraintTop_toTopOf="@+id/login_title1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
