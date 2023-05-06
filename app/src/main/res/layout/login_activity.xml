@@ -7,7 +7,7 @@
     android:background="@color/palette_color2">
 
     <ImageView
-        android:id="@+id/login_background"
+        android:id="@+id/home_login_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
@@ -20,35 +20,35 @@
         app:srcCompat="@drawable/login_blur_background" />
 
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/home_login_button"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="0dp"
         android:layout_height="65dp"
-        android:background="@color/palette_color2"
+        android:background="#80FFFFFF"
         android:drawableTint="@color/palette_color"
         android:fontFamily="@font/brandon_grotesque_regular_italic"
         android:text="Log In"
-        android:textColor="#FFFFFF"
+        android:textColor="#c0FFFFFF"
         android:textSize="18dp"
-        app:backgroundTint="@null"
+        app:backgroundTint="@color/palette_color2"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/signup_button"
+        app:layout_constraintEnd_toStartOf="@+id/home_signup_button"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:rippleColor="@color/palette_color2" />
 
     <Button
-        android:id="@+id/signup_button"
+        android:id="@+id/home_signup_button"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="0dp"
         android:layout_height="65dp"
-        android:background="@color/palette_color2"
+        android:background="#80FFFFFF"
         android:drawableTint="@color/palette_color"
         android:fontFamily="@font/brandon_grotesque_regular_italic"
         android:text="Sign Up"
-        android:textColor="#FFFFFF"
+        android:textColor="#c0FFFFFF"
         android:textSize="18dp"
-        app:backgroundTint="@null"
+        app:backgroundTint="@color/palette_color2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -58,7 +58,7 @@
         android:id="@+id/space"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@+id/login_background"
+        app:layout_constraintBottom_toBottomOf="@+id/home_login_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -69,9 +69,9 @@
         android:fontFamily="@font/brandon_grotesque_medium_italic"
         android:text=" Built"
         android:textAlignment="viewStart"
-        android:textColor="#FFFFFF"
+        android:textColor="#C0FFFFFF"
         android:textSize="90dp"
-        app:layout_constraintBottom_toTopOf="@+id/login_button"
+        app:layout_constraintBottom_toTopOf="@+id/home_login_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.45"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +86,7 @@
         android:fontFamily="@font/brandon_grotesque_bold_italic"
         android:text=" just for"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
+        android:textColor="#C0FFFFFF"
         android:textSize="65dp"
         app:layout_constraintStart_toStartOf="@+id/login_title1"
         app:layout_constraintTop_toTopOf="@+id/login_title1" />
@@ -99,7 +99,7 @@
         android:fontFamily="@font/brandon_grotesque_light_italic"
         android:text="you."
         android:textAlignment="viewStart"
-        android:textColor="@color/palette_color1"
+        android:textColor="#C06750a4"
         android:textSize="65dp"
         app:layout_constraintStart_toStartOf="@+id/login_title2"
         app:layout_constraintTop_toTopOf="@+id/login_title1" />
