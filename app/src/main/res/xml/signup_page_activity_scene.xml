@@ -13,11 +13,11 @@
         <OnSwipe motion:dragDirection="dragLeft" />
     </Transition>
     <Transition
-        motion:constraintSetEnd="@+id/name"
-        motion:constraintSetStart="@id/address"
+        motion:constraintSetEnd="@+id/info"
+        motion:constraintSetStart="@id/register"
         motion:duration="1000">
-       <KeyFrameSet>
-       </KeyFrameSet>
+        <KeyFrameSet>
+        </KeyFrameSet>
         <OnClick motion:targetId="@id/signup_prev_button" />
         <OnSwipe motion:dragDirection="dragRight" />
     </Transition>
@@ -29,15 +29,6 @@
         </KeyFrameSet>
         <OnClick motion:targetId="@+id/signup_next_button" />
         <OnSwipe motion:dragDirection="dragLeft" />
-    </Transition>
-    <Transition
-        motion:constraintSetEnd="@+id/info"
-        motion:constraintSetStart="@id/register"
-        motion:duration="1000">
-        <KeyFrameSet>
-        </KeyFrameSet>
-        <OnClick motion:targetId="@id/signup_prev_button" />
-        <OnSwipe motion:dragDirection="dragRight" />
     </Transition>
     <Transition
         motion:constraintSetEnd="@+id/register"
@@ -229,7 +220,7 @@
             motion:layout_constraintStart_toStartOf="@+id/colored_box"
             android:visibility="invisible" />
         <Constraint
-            android:id="@+id/signup_editTextDate"
+            android:id="@+id/signup_buttonDate"
             motion:layout_constraintEnd_toEndOf="@+id/colored_box"
             android:layout_width="0dp"
             android:layout_height="45dp"
@@ -509,7 +500,7 @@
             motion:layout_constraintStart_toStartOf="@+id/colored_box"
             android:visibility="invisible" />
         <Constraint
-            android:id="@+id/signup_editTextDate"
+            android:id="@+id/signup_buttonDate"
             motion:layout_constraintEnd_toEndOf="@+id/colored_box"
             android:layout_width="0dp"
             android:layout_height="45dp"
@@ -761,7 +752,7 @@
             android:layout_marginStart="30dp"
             android:id="@+id/signup_editTextWeight" />
         <Constraint
-            android:id="@+id/signup_editTextDate"
+            android:id="@+id/signup_buttonDate"
             motion:layout_constraintEnd_toEndOf="@+id/colored_box"
             android:layout_width="0dp"
             android:layout_height="45dp"
@@ -886,7 +877,7 @@
             android:layout_marginEnd="30dp"
             android:visibility="visible" />
         <Constraint
-            android:id="@+id/signup_editTextDate"
+            android:id="@+id/signup_buttonDate"
             motion:layout_constraintEnd_toEndOf="@+id/colored_box"
             android:layout_width="0dp"
             android:layout_height="45dp"
@@ -1099,4 +1090,10 @@
             motion:layout_constraintStart_toStartOf="@+id/colored_box"
             android:visibility="invisible" />
     </ConstraintSet>
+    <Transition
+        motion:constraintSetStart="@+id/address"
+        motion:constraintSetEnd="@+id/name" >
+        <OnClick motion:targetId="@+id/signup_prev_button" />
+        <OnSwipe motion:dragDirection="dragRight" />
+    </Transition>
 </MotionScene>
