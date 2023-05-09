@@ -9,6 +9,12 @@ import java.util.TimerTask;
 
 public class WelcomeActivity extends AppCompatActivity {
     Timer timer;
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

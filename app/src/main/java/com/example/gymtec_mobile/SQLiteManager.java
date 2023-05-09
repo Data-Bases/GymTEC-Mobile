@@ -6,20 +6,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.FileUtils;
 import android.util.Log;
-
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.io.* ;
-import java.io.File;
-import java.util.Scanner;
 
 
 public class SQLiteManager extends SQLiteOpenHelper
@@ -31,14 +20,6 @@ public class SQLiteManager extends SQLiteOpenHelper
     private static final String DATABASE_NAME = "DataBase";
     private static final int DATABASE_VERSION = 1;
 
-    //Information of the tables available in the DataBase
-    private static final String TABLE_SERVICIOS_SUCURSAL = "ServiciosSucursal";
-    private static final String TABLE_CLASE = "Clase";
-    private static final String TABLE_CLASE_FECHA = "ClaseFecha";
-    private static final String TABLE_SERVICIOS_CLASES = "ServiciosClases";
-    private static final String TABLE_CLIENTE_CLASE = "ClienteClase";
-    private static final String TABLE_CLIENTE = "Cliente";
-    private static final String TABLE_SUCURSAL = "Sucursal";
     @SuppressLint("SimpleDateFormat")
     private static final DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
 
@@ -58,95 +39,173 @@ public class SQLiteManager extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase)
     {
-        Path creation_sql_path = Paths.get("./DB/GymTEC-creation.sql");
-        Path population_sql_path = Paths.get("./DB/GymTEC-population.sql");
-        try {
-            Log.i("TESTING CREATION DATA BASE","Im in");
-            String creation_sql_log = String.valueOf(Files.readAllBytes(creation_sql_path));
-            String population_sql_log = String.valueOf(Files.readAllBytes(population_sql_path));
-            sqLiteDatabase.execSQL(creation_sql_log);
-            sqLiteDatabase.execSQL(population_sql_log);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        sqLiteDatabase.execSQL(SQLFiles.SQLCreationCliente);
+        sqLiteDatabase.execSQL(SQLFiles.SQLCreationClase);
+        sqLiteDatabase.execSQL(SQLFiles.SQLCreationServicios);
+        sqLiteDatabase.execSQL(SQLFiles.SQLCreationClienteClase);
+        sqLiteDatabase.execSQL(SQLFiles.SQLPopulation_1);
+        sqLiteDatabase.execSQL(SQLFiles.SQLTest_1);
+        sqLiteDatabase.execSQL(SQLFiles.SQLTest_2);
+        sqLiteDatabase.execSQL(SQLFiles.SQLTest_3);
+        Log.i("CREATION IS BACK","HONEWWWWWWY IM HOMEEEEE");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion)
     {
-//        switch (oldVersion)
-//        {
-//            case 1:
-//                sqLiteDatabase.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + NEW_COLUMN + " TEXT");
-//            case 2:
-//                sqLiteDatabase.execSQL("ALTER TABLE " + TABLE_NAME + " ADD COLUMN " + NEW_COLUMN + " TEXT");
-//        }
     }
-/**
-    public void addNoteToDatabase(Note note)
+
+    public void addClient(Client client)
     {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ID_FIELD, note.getId());
-        contentValues.put(TITLE_FIELD, note.getTitle());
-        contentValues.put(DESC_FIELD, note.getDescription());
-        contentValues.put(DELETED_FIELD, getStringFromDate(note.getDeleted()));
+        contentValues.put("Cedula", client.getID());
+        contentValues.put("Nombre", client.getFname());
+        contentValues.put("Apellido1", client.getFlast());
+        contentValues.put("Apellido2", client.getSlast());
+        contentValues.put("Provincia", client.getProvincia());
+        contentValues.put("Canton", client.getCanton());
+        contentValues.put("Distrito", client.getDistrito());
+        contentValues.put("Email", client.getEmail());
+        contentValues.put("Contrasena", client.getPassword());
+        contentValues.put("FechaNacimiento", client.getBirthdate());
+        contentValues.put("Peso", client.getWeight());
+        contentValues.put("IMC", client.getIMC());
 
-        sqLiteDatabase.insert(TABLE_NAME, null, contentValues);
+        sqLiteDatabase.insert("Cliente", null, contentValues);
     }
 
-    public void populateNoteListArray()
-    {
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+    public boolean isEnrrolled(int clientID, int classID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
-        try (Cursor result = sqLiteDatabase.rawQuery("SELECT * FROM " + TABLE_NAME, null))
+        try (Cursor result = sqLiteDatabase.rawQuery("SELECT IdClase FROM ClienteClase WHERE IdClase = "+ String.valueOf(classID) +" AND CedulaCliente = "+String.valueOf(clientID)+";", null))
         {
             if(result.getCount() != 0)
             {
-                while (result.moveToNext())
-                {
-                    int id = result.getInt(1);
-                    String title = result.getString(2);
-                    String desc = result.getString(3);
-                    String stringDeleted = result.getString(4);
-                    Date deleted = getDateFromString(stringDeleted);
-                    Note note = new Note(id,title,desc,deleted);
-                    Note.noteArrayList.add(note);
-                }
+                return false;
+            } else {
+                return true;
             }
         }
     }
 
-    public void updateNoteInDB(Note note)
+    public void addClientClass(int clientID, int classID)
     {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(ID_FIELD, note.getId());
-        contentValues.put(TITLE_FIELD, note.getTitle());
-        contentValues.put(DESC_FIELD, note.getDescription());
-        contentValues.put(DELETED_FIELD, getStringFromDate(note.getDeleted()));
+        contentValues.put("IdClase ", classID);
+        contentValues.put("CedulaCliente ", clientID);
 
-        sqLiteDatabase.update(TABLE_NAME, contentValues, ID_FIELD + " =? ", new String[]{String.valueOf(note.getId())});
+        sqLiteDatabase.insert("ClienteClase", null, contentValues);
+        updateClassCapacity(classID,-1);
+
     }
 
-    private String getStringFromDate(Date date)
+    public void removeClientClass(int clientID, int classID)
     {
-        if(date == null)
-            return null;
-        return dateFormat.format(date);
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        sqLiteDatabase.delete("ClienteClase", "CedulaCliente=? AND IdClase=?", new String[]{String.valueOf(clientID), String.valueOf(classID)});
+
+        updateClassCapacity(classID,1);
     }
 
-    private Date getDateFromString(String string)
-    {
-        try
-        {
-            return dateFormat.parse(string);
-        }
-        catch (ParseException | NullPointerException e)
-        {
-            return null;
-        }
-    }**/
 
+    public void getClasses()
+    {
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        ClassService.classArrayList.clear();
+
+        try (Cursor result = sqLiteDatabase.rawQuery("SELECT Servicios.Nombre, Servicios.Descripcion, Clase.HoraInicio, Clase.HoraFinalizacion, Clase.Fecha, Clase.Capacidad, Clase.EsGrupal, Clase.NombreEmpleado, Clase.NombreSucursal, Clase.Id  FROM Clase INNER JOIN Servicios ON Clase.IdServicio = Servicios.Id;", null)) {
+            if (result.getCount() > 0 && result.moveToFirst()) {
+                do {
+                    Log.i("RESULT", result.toString());
+                    ClassService classService = new ClassService(
+                            result.getString(0),
+                            result.getString(1),
+                            result.getString(2),
+                            result.getString(3),
+                            result.getString(4),
+                            result.getInt(5),
+                            (result.getInt(6) == 1),
+                            result.getString(7),
+                            result.getString(8),
+                            result.getInt(9)
+
+                    );
+                    ClassService.classArrayList.add(classService);
+                } while (result.moveToNext());
+                Log.i("ARRAY LIST", ClassService.classArrayList.toString());
+            } else {
+                Log.e("GET CLASS", "NO CLASSES FOUND");
+            }
+        }
+
+    }
+
+    public void updateClassCapacity(int classID, int deltaCapacity)
+    {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        try (Cursor result = sqLiteDatabase.rawQuery("SELECT Capacidad FROM Clase WHERE Id = "+ String.valueOf(classID) +";", null))
+        {
+            if(result.getCount() != 0)
+            {
+                result.moveToFirst();
+                int capacity = result.getInt(0);
+                Log.i("CAPACITY TEST", Integer.toString(capacity));
+                capacity += deltaCapacity;
+
+                ContentValues contentValues = new ContentValues();
+                contentValues.put("Capacidad", capacity);
+
+                sqLiteDatabase.update("Clase", contentValues, "Id=?", new String[]{String.valueOf(classID)});
+            } else {
+                Log.e("UPDATE CLASS CAPACITY","CLASS NOT FOUND");
+            }
+        }
+    }
+
+    public boolean verifyPassword(int clientID, String password){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        String right_password = "";
+
+        try (Cursor result = sqLiteDatabase.rawQuery("SELECT Contrasena FROM Cliente WHERE Cedula = "+ String.valueOf(clientID) +";", null))
+        {
+            if(result.moveToFirst()) // Move cursor to first row
+            {
+                right_password = result.getString(0);
+            }
+            else
+            {
+                Log.e("VERIFY PASSWORD","CLIENT NOT FOUND");
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e("VERIFY PASSWORD","An error occurred while verifying password: " + e.getMessage());
+        }
+
+        if(password.equals(right_password)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean verifyIDAvailability(int clientID){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        try (Cursor result = sqLiteDatabase.rawQuery("SELECT Cedula FROM Cliente WHERE Cedula = "+ String.valueOf(clientID) +";", null))
+        {
+            if(result.getCount() != 0)
+            {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
 }

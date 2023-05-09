@@ -17,10 +17,14 @@ public class LogInActivity  extends AppCompatActivity  {
     public Button login_button;
     public Button signup_button;
     @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity);
-        loadFromDBToMemory();
 
         login_button = (Button) findViewById(R.id.home_login_button);
         signup_button = (Button) findViewById(R.id.home_signup_button);
@@ -29,6 +33,7 @@ public class LogInActivity  extends AppCompatActivity  {
             public void onClick(View v) {
                 Intent intent = new Intent(LogInActivity.this, LogInPageActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -37,12 +42,8 @@ public class LogInActivity  extends AppCompatActivity  {
             public void onClick(View v) {
                 Intent intent = new Intent(LogInActivity.this, SignUpPageActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
-    }
-
-    private void loadFromDBToMemory()
-    {
-        SQLiteManager sqLiteManager = SQLiteManager.instanceOfDatabase(this);
     }
 }

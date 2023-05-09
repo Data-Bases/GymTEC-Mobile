@@ -5,6 +5,7 @@ import android.widget.EditText;
 
 public class Client {
 
+    public static int ID_client = 0;
     public Client(String fname,
                   String flast,
                   String slast,

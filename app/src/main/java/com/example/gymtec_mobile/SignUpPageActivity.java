@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -11,12 +13,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.content.Intent;
 import android.view.View;
+import android.widget.ListView;
 
 import java.util.Calendar;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
+
 public class SignUpPageActivity extends AppCompatActivity {
+    private SQLiteManager sqLiteManager;
 
     private DatePickerDialog datePickerDialog;
     private String currentSQLDate;
@@ -36,9 +42,17 @@ public class SignUpPageActivity extends AppCompatActivity {
     private EditText edit_ID;
     private EditText edit_password;
     @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_page_activity);
+        sqLiteManager = SQLiteManager.instanceOfDatabase(this);
+
+        initDatePicker();
 
         back_button = (Button) findViewById(R.id.signup_back_button);
         signup_button = (Button) findViewById(R.id.signup_signup_button);
@@ -57,17 +71,28 @@ public class SignUpPageActivity extends AppCompatActivity {
 
         edit_birthdate.setText(getTodaysDate());
 
+        edit_birthdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDatePicker(v);
+            }
+        });
+
         back_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SignUpPageActivity.this, LogInActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
         signup_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //ClassService.classArrayList.clear();
+                //sqLiteManager.initialize();
+                sqLiteManager.getClasses();
                 if (verifyInformation()){
                     NewUser = new Client(
                             edit_fname.getText().toString(),
@@ -83,38 +108,16 @@ public class SignUpPageActivity extends AppCompatActivity {
                             Integer.parseInt(edit_ID.getText().toString()),
                             edit_password.getText().toString()
                             );
-                    Log.i("SIGNUP TEST", "MEETS ALL THE REQUIEREMENTS");
+                    sqLiteManager.addClient(NewUser);
+                    Client.ID_client = NewUser.getID();
+                    Intent intent = new Intent(SignUpPageActivity.this, HomePageActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else {
-                    Log.i("SIGNUP TEST", "DOESNT MEET THE REQUIEREMENTS");
+                    Log.i("SIGNUP TEST", "DOESNT MEET THE REQUIREMENTS");
                 }
             }
         });
-    }
-    private boolean verifyInformation(){
-        boolean status = true;
-        if (verifyNotNulls()){
-            if (!verifyIDNonExistance(Integer.parseInt(edit_ID.getText().toString()))){
-                Log.e("SIGNUP TEST", "FAILED AT ALREADY EXISTING ID");
-                status = false;
-            }
-            if (!verifyValidID(Integer.parseInt(edit_ID.getText().toString()))){
-                Log.e("SIGNUP TEST", "FAILED AT VALID ID");
-                status = false;
-            }
-            if (!verifyValidEmail(edit_ID.getText().toString())){
-                Log.e("SIGNUP TEST", "FAILED AT VALID EMAIL");
-                status = false;
-            }
-        } else {
-            status = false;
-            Log.i("SIGNUP TEST", "FAILED AT NULLS");
-        }
-        return status;
-    }
-
-    private boolean verifyIDNonExistance(int ID){
-
-        return true;
     }
 
     private String getTodaysDate(){
@@ -128,60 +131,6 @@ public class SignUpPageActivity extends AppCompatActivity {
 
     }
 
-    private boolean verifyValidEmail(String email){
-        return Pattern.compile("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*"
-                        + "@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")
-                .matcher(email)
-                .matches();
-    }
-    private boolean verifyValidID(int ID){
-
-        if(ID < 100000000){
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    private boolean verifyNotNulls(){
-        boolean status = true;
-        if(edit_fname.getText().toString() == ""){
-            Log.e("SIGNUP TEST", "FAILED AT NAME NULL");
-            status = false;
-        }else if(edit_flast.getText().toString() == ""){
-            Log.e("SIGNUP TEST", "FAILED AT LAST NAME NULL");
-            status = false;
-        }else if(edit_provincia.getText().toString() == ""){
-            Log.e("SIGNUP TEST", "FAILED AT PROVINCIA NULL");
-            status = false;
-        }else if(edit_canton.getText().toString() == ""){
-            Log.e("SIGNUP TEST", "FAILED AT CANTON NULL");
-            status = false;
-        }else if(edit_distrito.getText().toString() == ""){
-            Log.e("SIGNUP TEST", "FAILED AT DISTRITO NULL");
-            status = false;
-        }else if(currentSQLDate == ""){
-            Log.e("SIGNUP TEST", "FAILED AT DATE NULL");
-            status = false;
-        }else if(edit_weight.getText().toString() == ""){
-            Log.e("SIGNUP TEST", "FAILED AT WEIGHT NULL");
-            status = false;
-        }else if(edit_IMC.getText().toString() == ""){
-            Log.e("SIGNUP TEST", "FAILED AT IMC NULL");
-            status = false;
-        }else if(edit_email.getText().toString() == ""){
-            Log.e("SIGNUP TEST", "FAILED AT EMAIL NULL");
-            status = false;
-        }else if(edit_ID.getText().toString() == ""){
-            Log.e("SIGNUP TEST", "FAILED AT ID NULL");
-            status = false;
-        }else if(edit_password.getText().toString() == ""){
-            Log.e("SIGNUP TEST", "FAILED AT PASSWORD NULL");
-            status = false;
-        }
-        return status;
-    }
-
     private void initDatePicker(){
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -189,7 +138,8 @@ public class SignUpPageActivity extends AppCompatActivity {
                 month = month + 1;
                 String date = makeDateString(day, month, year);
                 currentSQLDate = makeDateSQL(day, month, year);
-                back_button.setText(date);
+                Log.i("DATE TEST","SETTING DATE CORRECTLY");
+                edit_birthdate.setText(date);
 
             }
         };
@@ -204,12 +154,15 @@ public class SignUpPageActivity extends AppCompatActivity {
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
     }
+    private void openDatePicker(View view){
+        datePickerDialog.show();
+    }
 
     private String makeDateString(int day, int month, int year) {
         return day+" "+getMonthFormat(month)+" "+year;
     }
     private String makeDateSQL(int day, int month, int year) {
-        return year+"-"+month+"-"+day;
+        return month+"/"+day+"/"+year;
     }
 
     private String getMonthFormat(int month){
@@ -243,9 +196,115 @@ public class SignUpPageActivity extends AppCompatActivity {
         }
     }
 
+    private boolean verifyValidEmail(String email){
+        String ePattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        Pattern p = java.util.regex.Pattern.compile(ePattern);
+        Matcher m = p.matcher(email);
+        return m.matches();
+    }
+    private boolean verifyValidID(int ID){
 
+        if(ID < 100000000){
+            return false;
+        } else {
+            return true;
+        }
+    }
+    private boolean verifyInformation(){
+        boolean status = true;
+        if (verifyNotNulls()){
+            AlertDialog.Builder errorMessage = new AlertDialog.Builder(this);
+            errorMessage.setCancelable(true);
+            if (!sqLiteManager.verifyIDAvailability(Integer.parseInt(edit_ID.getText().toString()))){
+                Log.e("SIGNUP TEST", "FAILED AT ALREADY EXISTING ID");
+                errorMessage.setMessage("The client is already registered.");
+                status = false;
+            } else if (!verifyValidID(Integer.parseInt(edit_ID.getText().toString()))){
+                Log.e("SIGNUP TEST", "FAILED AT VALID ID");
+                errorMessage.setMessage("Enter a valid ID for the client.");
+                status = false;
+            } else if (!verifyValidEmail(edit_email.getText().toString())){
+                Log.e("SIGNUP TEST", "FAILED AT VALID EMAIL");
+                errorMessage.setMessage("Enter a valid email for the client.");
+                status = false;
+            } if (!status){
+                AlertDialog errorAlert = errorMessage.create();
+                errorAlert.show();
+            }
+        } else {
+            status = false;
+            Log.i("SIGNUP TEST", "FAILED AT NULLS");
+        }
+        return status;
+    }
+    private boolean verifyNotNulls(){
+        boolean status = true;
+        AlertDialog.Builder errorMessage = new AlertDialog.Builder(this);
+        errorMessage.setCancelable(true);
+        if(edit_fname.getText().toString().equals("")){
+            Log.e("SIGNUP TEST", "FAILED AT NAME NULL");
+            errorMessage.setMessage("Name Box has to be filled.");
+            status = false;
+        }else if(edit_flast.getText().toString().equals("")){
+            Log.e("SIGNUP TEST", "FAILED AT LAST NAME NULL");
+            errorMessage.setMessage("First Last Name Box has to be filled.");
+            status = false;
+        }else if(edit_provincia.getText().toString().equals("")){
+            Log.e("SIGNUP TEST", "FAILED AT PROVINCIA NULL");
+            errorMessage.setMessage("Provincia Box has to be filled.");
+            status = false;
+        }else if(edit_canton.getText().toString().equals("")){
+            Log.e("SIGNUP TEST", "FAILED AT CANTON NULL");
+            errorMessage.setMessage("Canton Box has to be filled.");
+            status = false;
+        }else if(edit_distrito.getText().toString().equals("")){
+            Log.e("SIGNUP TEST", "FAILED AT DISTRITO NULL");
+            errorMessage.setMessage("Distrito Box has to be filled.");
+            status = false;
+        }else if(currentSQLDate.equals("")){
+            Log.e("SIGNUP TEST", "FAILED AT DATE NULL");
+            errorMessage.setMessage("Date Box has to be selected.");
+            status = false;
+        }else if(edit_weight.getText().toString().equals("")){
+            Log.e("SIGNUP TEST", "FAILED AT WEIGHT NULL");
+            errorMessage.setMessage("Weight Box has to be filled.");
+            status = false;
+        }else if(edit_IMC.getText().toString().equals("")){
+            Log.e("SIGNUP TEST", "FAILED AT IMC NULL");
+            errorMessage.setMessage("IMC Box has to be filled.");
+            status = false;
+        }else if(edit_email.getText().toString().equals("")){
+            Log.e("SIGNUP TEST", "FAILED AT EMAIL NULL");
+            errorMessage.setMessage("Email Box has to be filled.");
+            status = false;
+        }else if(edit_ID.getText().toString().equals("")){
+            Log.e("SIGNUP TEST", "FAILED AT ID NULL");
+            errorMessage.setMessage("ID Box has to be filled.");
+            status = false;
+        }else if(edit_password.getText().toString().equals("")){
+            Log.e("SIGNUP TEST", "FAILED AT PASSWORD NULL");
+            errorMessage.setMessage("Password Box has to be filled.");
+            status = false;
+        }
+        if (!status){
+            AlertDialog errorAlert = errorMessage.create();
+            errorAlert.show();
+        }
+        return status;
+    }
 
-    private void openDatePicker(View view){
-        datePickerDialog.show();
+    private void printValues(){
+        Log.i("DATA NAME",edit_fname.getText().toString());
+        Log.i("DATA 1 LAST NAME",edit_flast.getText().toString());
+        Log.i("DATA 2 LAST NAME",edit_slast.getText().toString());
+        Log.i("DATA PROVINCIA",edit_provincia.getText().toString());
+        Log.i("DATA CANTON",edit_canton.getText().toString());
+        Log.i("DATA DISTRITO",edit_distrito.getText().toString());
+        Log.i("DATA DATE",currentSQLDate);
+        Log.i("DATA WEIGHT",edit_weight.getText().toString());
+        Log.i("DATA IMC",edit_IMC.getText().toString());
+        Log.i("DATA EMAIL",edit_email.getText().toString());
+        Log.i("DATA ID",edit_ID.getText().toString());
+        Log.i("DATA PASSWORD",edit_password.getText().toString());
     }
 }

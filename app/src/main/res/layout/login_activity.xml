@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/palette_color2">
+    android:background="@color/palette_dark">
 
     <ImageView
         android:id="@+id/home_login_background"
@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/login_blur_background" />
+        app:srcCompat="@drawable/login_background_option3" />
 
     <Button
         android:id="@+id/home_login_button"
@@ -25,17 +25,17 @@
         android:layout_width="0dp"
         android:layout_height="65dp"
         android:background="#80FFFFFF"
-        android:drawableTint="@color/palette_color"
+        android:drawableTint="@color/palette_blue"
         android:fontFamily="@font/brandon_grotesque_regular_italic"
         android:text="Log In"
         android:textColor="#c0FFFFFF"
         android:textSize="18dp"
-        app:backgroundTint="@color/palette_color2"
+        app:backgroundTint="@color/palette_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/home_signup_button"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:rippleColor="@color/palette_color2" />
+        app:rippleColor="@color/palette_dark" />
 
     <Button
         android:id="@+id/home_signup_button"
@@ -43,12 +43,12 @@
         android:layout_width="0dp"
         android:layout_height="65dp"
         android:background="#80FFFFFF"
-        android:drawableTint="@color/palette_color"
+        android:drawableTint="@color/palette_blue"
         android:fontFamily="@font/brandon_grotesque_regular_italic"
         android:text="Sign Up"
         android:textColor="#c0FFFFFF"
         android:textSize="18dp"
-        app:backgroundTint="@color/palette_color2"
+        app:backgroundTint="@color/palette_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -97,7 +97,7 @@
         android:layout_height="92dp"
         android:layout_marginTop="130dp"
         android:fontFamily="@font/brandon_grotesque_light_italic"
-        android:text="you."
+        android:text="    you."
         android:textAlignment="viewStart"
         android:textColor="#C06750a4"
         android:textSize="65dp"

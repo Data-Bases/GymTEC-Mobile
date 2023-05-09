@@ -1,40 +1,21 @@
-CREATE TABLE ServiciosSucursal
-(
-	Id INTEGER NOT NULL,
-	IdServicioClase INTEGER NOT NULL,
-	NombreSucursal VARCHAR(100) NOT NULL,
-
-	PRIMARY KEY (Id),
-	
-	FOREIGN KEY (IdServicioClase) REFERENCES ServiciosClases(Id),
-	FOREIGN KEY (NombreSucursal) REFERENCES Sucursal(Nombre)
-);
-
 CREATE TABLE Clase
 (
 	Id INTEGER NOT NULL,
-	NombreClase VARCHAR(100) NOT NULL,
+	IdServicio INTEGER NOT NULL,
 	HoraInicio TIME(0) NOT NULL,
 	HoraFinalizacion TIME(0) NOT NULL,
+	Fecha DATE NOT NULL,
 	Capacidad INTEGER NOT NULL,
 	EsGrupal BIT NOT NULL,
 	NombreEmpleado VARCHAR(300) NOT NULL,
+	NombreSucursal VARCHAR(100) NOT NULL,
 
-	PRIMARY KEY (Id)
-);
-
-CREATE TABLE ClaseFecha
-(
-	Id INTEGER NOT NULL,
-	IdClase INTEGER NOT NULL,
-	Fecha DATE NOT NULL,
-	
 	PRIMARY KEY (Id),
-	
-	FOREIGN KEY (IdClase) REFERENCES Clase(Id)
+
+	FOREIGN KEY (IdServicio) REFERENCES Clase(Id)
 );
 
-CREATE TABLE ServiciosClases
+CREATE TABLE Servicios
 (
 	Id INTEGER NOT NULL,
 	Nombre VARCHAR(100) NOT NULL,
@@ -46,12 +27,12 @@ CREATE TABLE ServiciosClases
 CREATE TABLE ClienteClase
 (
 	Id INTEGER NOT NULL,
-	IdClaseFecha INTEGER NOT NULL,
+	IdClase INTEGER NOT NULL,
 	CedulaCliente INTEGER NOT NULL,
 
 	PRIMARY KEY (Id),
 	
-	FOREIGN KEY (IdClaseFecha) REFERENCES ClaseFecha(Id),
+	FOREIGN KEY (IdClase) REFERENCES Clase(Id),
 	FOREIGN KEY (CedulaCliente) REFERENCES Cliente(Cedula)
 );
 
@@ -71,11 +52,4 @@ CREATE TABLE Cliente
 	IMC FLOAT(2) DEFAULT 0,
 
 	PRIMARY KEY (Cedula)
-);
-
-CREATE TABLE Sucursal
-(
-	Nombre VARCHAR(100) NOT NULL,
-
-	PRIMARY KEY (Nombre)
 );

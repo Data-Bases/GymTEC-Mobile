@@ -5,7 +5,7 @@
     android:id="@+id/pass"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/palette_color2">
+    android:background="@color/palette_dark">
 
     <ImageView
         android:id="@+id/login_background"
@@ -26,15 +26,15 @@
         android:layout_width="206dp"
         android:layout_height="65dp"
         android:background="#80FFFFFF"
-        android:drawableTint="@color/palette_color"
+        android:drawableTint="@color/palette_blue"
         android:fontFamily="@font/brandon_grotesque_regular_italic"
         android:text="Log In"
         android:textColor="#c0FFFFFF"
         android:textSize="18dp"
-        app:backgroundTint="@color/palette_color2"
+        app:backgroundTint="@color/palette_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/space"
-        app:rippleColor="@color/palette_color2" />
+        app:rippleColor="@color/palette_dark" />
 
     <Button
         android:id="@+id/login_back_button"
@@ -42,12 +42,12 @@
         android:layout_width="206dp"
         android:layout_height="65dp"
         android:background="#80FFFFFF"
-        android:drawableTint="@color/palette_color"
+        android:drawableTint="@color/palette_blue"
         android:fontFamily="@font/brandon_grotesque_regular_italic"
         android:text="Back"
         android:textColor="#c0FFFFFF"
         android:textSize="18dp"
-        app:backgroundTint="@color/palette_color2"
+        app:backgroundTint="@color/palette_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/space" />
 
@@ -80,9 +80,9 @@
         android:layout_width="335dp"
         android:layout_height="88dp"
         android:layout_marginTop="70dp"
-        android:backgroundTint="@color/palette_color4"
+        android:backgroundTint="@color/palette_purple"
         android:fontFamily="@font/brandon_grotesque_bold_italic"
-        android:foregroundTint="@color/palette_color4"
+        android:foregroundTint="@color/palette_purple"
         android:text="Back!"
         android:textAlignment="textEnd"
         android:textColor="#c06750a4"
@@ -97,8 +97,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
-        android:backgroundTint="@color/palette_color2"
-        android:tint="@color/palette_color2"
+        android:backgroundTint="@color/palette_dark"
+        android:tint="@color/palette_dark"
         app:layout_constraintBottom_toTopOf="@+id/login_back_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

@@ -5,7 +5,7 @@
     android:id="@+id/pass"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/palette_color2"
+    android:background="@color/palette_dark"
     app:layoutDescription="@xml/signup_page_activity_scene">
 
     <ImageView
@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="@drawable/login_background_option2" />
+        app:srcCompat="@drawable/login_background_option3" />
 
     <Button
         android:id="@+id/signup_next_button"
@@ -27,15 +27,15 @@
         android:layout_width="206dp"
         android:layout_height="65dp"
         android:background="#80FFFFFF"
-        android:drawableTint="@color/palette_color"
+        android:drawableTint="@color/palette_blue"
         android:fontFamily="@font/brandon_grotesque_regular_italic"
         android:text="Next"
         android:textColor="#c0FFFFFF"
         android:textSize="18dp"
-        app:backgroundTint="@color/palette_color2"
+        app:backgroundTint="@color/palette_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/space"
-        app:rippleColor="@color/palette_color2" />
+        app:rippleColor="@color/palette_dark" />
 
     <Button
         android:id="@+id/signup_signup_button"
@@ -43,16 +43,16 @@
         android:layout_width="206dp"
         android:layout_height="65dp"
         android:background="#80FFFFFF"
-        android:drawableTint="@color/palette_color"
+        android:drawableTint="@color/palette_blue"
         android:fontFamily="@font/brandon_grotesque_regular_italic"
         android:text="Sign Up"
         android:textAlignment="center"
         android:textColor="#c0FFFFFF"
         android:textSize="18dp"
-        app:backgroundTint="@color/palette_color2"
+        app:backgroundTint="@color/palette_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/space"
-        app:rippleColor="@color/palette_color2" />
+        app:rippleColor="@color/palette_dark" />
 
     <Button
         android:id="@+id/signup_back_button"
@@ -60,12 +60,12 @@
         android:layout_width="206dp"
         android:layout_height="65dp"
         android:background="#80FFFFFF"
-        android:drawableTint="@color/palette_color"
+        android:drawableTint="@color/palette_blue"
         android:fontFamily="@font/brandon_grotesque_regular_italic"
         android:text="Back"
         android:textColor="#c0FFFFFF"
         android:textSize="18dp"
-        app:backgroundTint="@color/palette_color2"
+        app:backgroundTint="@color/palette_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/space" />
 
@@ -75,12 +75,12 @@
         android:layout_width="206dp"
         android:layout_height="65dp"
         android:background="#80FFFFFF"
-        android:drawableTint="@color/palette_color"
+        android:drawableTint="@color/palette_blue"
         android:fontFamily="@font/brandon_grotesque_regular_italic"
         android:text="Previous"
         android:textColor="#c0FFFFFF"
         android:textSize="18dp"
-        app:backgroundTint="@color/palette_color2"
+        app:backgroundTint="@color/palette_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/space" />
 
@@ -128,8 +128,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
-        android:backgroundTint="@color/palette_color2"
-        android:tint="@color/palette_color2"
+        android:backgroundTint="@color/palette_dark"
+        android:tint="@color/palette_dark"
         app:layout_constraintBottom_toTopOf="@+id/signup_back_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -326,6 +326,7 @@
         android:layout_marginEnd="30dp"
         android:ems="10"
         android:inputType="textEmailAddress"
+        android:textColor="#c0FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/colored_box"
         app:layout_constraintStart_toStartOf="@+id/colored_box"
         app:layout_constraintTop_toBottomOf="@+id/email_text" />
@@ -364,17 +365,17 @@
 
     <Button
         android:id="@+id/signup_buttonDate"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style = "?spinnerStyle"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginStart="30dp"
         android:layout_marginEnd="30dp"
         android:background="#80FFFFFF"
-        android:drawableTint="@color/palette_color"
+        android:drawableTint="@color/palette_blue"
         android:fontFamily="@font/brandon_grotesque_regular_italic"
         android:textColor="#c0FFFFFF"
         android:textSize="18dp"
-        app:backgroundTint="@color/palette_color2"
+        app:backgroundTint="@color/palette_dark"
         app:layout_constraintEnd_toEndOf="@+id/colored_box"
         app:layout_constraintStart_toStartOf="@+id/colored_box"
         app:layout_constraintTop_toBottomOf="@+id/date_text" />
@@ -418,6 +419,7 @@
         android:layout_marginEnd="30dp"
         android:ems="10"
         android:inputType="textShortMessage"
+        android:textColor="#c0FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/colored_box"
         app:layout_constraintStart_toStartOf="@+id/colored_box"
         app:layout_constraintTop_toBottomOf="@+id/date_text" />
@@ -461,6 +463,7 @@
         android:layout_marginEnd="30dp"
         android:ems="10"
         android:inputType="textShortMessage"
+        android:textColor="#c0FFFFFF"
         app:layout_constraintEnd_toEndOf="@+id/colored_box"
         app:layout_constraintStart_toStartOf="@+id/colored_box"
         app:layout_constraintTop_toBottomOf="@+id/date_text" />
